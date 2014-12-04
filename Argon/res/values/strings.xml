@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Argon</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="app_title_without_a">rgon</string>
+    <string name="setting_play_bgm">Play BGM</string>
+    <string name="setting_play_bgm_tip">If you are in public places, please turn off the BGM!</string>
+
+</resources>
