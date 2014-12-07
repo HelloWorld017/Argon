@@ -4,25 +4,29 @@ import java.util.Random;
 
 public class GameArgon {
 	private TimeManager timeManager;
+	protected TimeManager highlightingTimeManager;
 	private TimeThread timeThread;
+	private TimeThread highlightingTimeThread;
 	private boolean isRotatingMode;
 	private boolean isHiddenMode;
-	private boolean isHighlighting;
+	protected boolean isHighlighting;
+	private boolean isOriginMultiplier;
 	private int currentCombo;
 	private long score;
 	private double multiplier;
 	private EnumRotation currentRotation;
-	private EnumStatus gameStatus;
+	protected EnumStatus gameStatus;
 	private Random r;
 	private EnumDirection nextEnumDirection;
 	private EnumDirection currentEnumDirection;
 	
-	public GameArgon(boolean hidden, boolean rotating){
+	public GameArgon(boolean hidden, boolean rotating, boolean origin){
 		gameStatus = EnumStatus.Prepared;
 		timeManager = new TimeManager(this);
 		timeThread = new TimeThread(timeManager);
 		isHiddenMode = hidden;
 		isRotatingMode = rotating;
+		isOriginMultiplier = origin;
 		currentCombo = 0;
 		score = 0;
 		multiplier = 1;
@@ -30,7 +34,7 @@ public class GameArgon {
 		r = new Random();
 		nextEnumDirection = EnumDirection.findByInteger(r.nextInt(4));
 		if(isHiddenMode){
-			multiplier += 0.3;
+			multiplier += 0.2;
 		}
 		
 		if(isRotatingMode){
@@ -38,8 +42,10 @@ public class GameArgon {
 		}
 		
 		if(isHiddenMode && isRotatingMode){
-			multiplier += 0.1;
+			multiplier += 0.2;
 		}
+		highlightingTimeManager = new TimeManager(5, new ThreadEndHighlight(this));
+		highlightingTimeThread = new TimeThread(highlightingTimeManager);
 	}
 	
 	public void startGame() throws InterruptedException{
@@ -71,11 +77,21 @@ public class GameArgon {
 		gameStatus = EnumStatus.Finished;
 	}
 	
-	public void userSelected(boolean isSelectedTrue){
+	public void userSelected(EnumDirection selected){
+		boolean isSelectedTrue;
+		
+		if(selected.equals(currentEnumDirection)){
+			isSelectedTrue = true;
+		}else{
+			isSelectedTrue = false;
+		}
 		if(gameStatus != EnumStatus.Ingame){
 			throw new IllegalStateException();
 		}
 		if(isSelectedTrue){
+			if(currentEnumDirection.equals(EnumDirection.org) && isOriginMultiplier){
+				score += 3;
+			}
 				if(isHighlighting){
 					timeManager.addTime(3);
 				}else{
@@ -90,10 +106,15 @@ public class GameArgon {
 				timeManager.subtractTime(2);
 				//Time decrease more when you're in highlighting
 			}
+			
+			if(isOriginMultiplier){
+				timeManager.subtractTime(5);
+			}
 		}
 		if(currentCombo % 10 == 0){
 			isHighlighting = true;
-			timeManager.startHighlightingCalculation();
+			
+			highlightingTimeThread.run();
 		}
 		getNext();
 	}
@@ -130,8 +151,8 @@ public class GameArgon {
 	
 	public long calculateScore(){
 		
-		if(!isHighlighting){return Math.round((currentCombo + 25) / 25 * multiplier);}
-		else{return Math.round((currentCombo + 12.5) / 12.5 * multiplier);}
+		if(!isHighlighting){return Math.round((2 * currentCombo + 50) / 25 * multiplier);}
+		else{return Math.round((2 * currentCombo + 50) / 12.5 * multiplier);}
 		
 	}
 	

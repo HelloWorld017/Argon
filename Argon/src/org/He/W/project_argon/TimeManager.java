@@ -4,16 +4,25 @@ public class TimeManager {
 	
 	private int requirementTime;
 	private int currentTime;
-	private GameArgon currentGame;
-	private boolean isCalculatingHighlighting;
-	private int highlightingTime;
+	private int fixedCurrentTime;
+	private Thread endWork;
 	
 	public TimeManager(GameArgon currentGame){
-		this.currentGame = currentGame;
 		requirementTime = 60;
 		currentTime = 0;
-		isCalculatingHighlighting = false;
-		highlightingTime = 0;
+		fixedCurrentTime = 0;
+		this.endWork = new ThreadEndGame(currentGame);
+	}
+	public TimeManager(int requirement, Thread endWork){
+		requirementTime = requirement;
+		currentTime = 0;
+		fixedCurrentTime = 0;
+		this.endWork = endWork;
+	}
+	
+	public synchronized void reset(){
+		fixedCurrentTime = 0;
+		currentTime = 0;
 	}
 	
 	public synchronized void addTime(int time){
@@ -34,26 +43,18 @@ public class TimeManager {
 	}
 	
 	public synchronized void tick(){
-		if(isCalculatingHighlighting){
-			highlightingTime++;
-			
-			if(highlightingTime >= 5){
-				currentGame.endHighlight();
-				highlightingTime = 0;
-				isCalculatingHighlighting = false;
-			}
-		}
 		currentTime++;
+		fixedCurrentTime++;
 		calculateIsGameEnded();
 	}
 	
-	public void startHighlightingCalculation(){
-		isCalculatingHighlighting = true;
+	public int getWholeTime(){
+		return fixedCurrentTime;
 	}
 	
 	public void calculateIsGameEnded(){
 			if(currentTime >= requirementTime){
-				currentGame.naturalEndGame();
+				endWork.run();
 			}	
 	}
 }

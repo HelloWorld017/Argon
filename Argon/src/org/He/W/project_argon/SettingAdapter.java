@@ -15,9 +15,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -27,8 +29,10 @@ public class SettingAdapter extends BaseAdapter {
 	private LayoutInflater li;
 	private View Selectable = null;
 	private View TrueFalse = null;
+	private Context ctxt;
 	
 	public SettingAdapter(Context ctx){
+		ctxt = ctx;
 		li = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		HashMap<EnumSettings, Integer> flags = Settings.getWholeFlags();
 		Iterator<Entry<EnumSettings, Integer>> iterator = flags.entrySet().iterator();
@@ -144,6 +148,19 @@ public class SettingAdapter extends BaseAdapter {
 			});
 			settingToggle.setTypeface(Settings.getFont());
 		}if((Boolean) data[3]){
+			if(arg1 == null){
+				arg1 = Selectable;
+			}
+			TextView settingName = ((TextView)arg1.findViewById(R.id.txtName));
+			settingName.setText((String)data[0]);
+			settingName.setTypeface(Settings.getFont());
+			TextView settingDesc = ((TextView)arg1.findViewById(R.id.txtDesc));
+			settingDesc.setText((String)data[1]);
+			settingDesc.setTypeface(Settings.getFont());
+			
+			//TODO update Spinner
+			Spinner settingSpinner = (Spinner)arg1.findViewById(R.id.spnValues);
+			ArrayAdapter settingValues = new ArrayAdapter(ctxt, android.R.layout.simple_spinner_item);
 			
 		}
 		return arg1;
