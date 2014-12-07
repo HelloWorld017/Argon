@@ -15,6 +15,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -36,47 +38,22 @@ public class SettingAdapter extends BaseAdapter {
 		li = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		HashMap<EnumSettings, Integer> flags = Settings.getWholeFlags();
 		Iterator<Entry<EnumSettings, Integer>> iterator = flags.entrySet().iterator();
-		Object[] temp;
-		Entry<EnumSettings, Integer> tempEntry;
 		EnumSettings tempSetting;
 		ArrayList<EnumSettingParents> lists = new ArrayList<EnumSettingParents>();
 		while(iterator.hasNext()){
-			temp = new Object[8];
-			/*Index of temp
-			 * 0 = Name 
-			 * 1 = Tip
-			 * 2 = isParent
-			 * 3 = isDefaultTrueFalse
-			 * 4 = values
-			 * 5 = Original Value
-			 * 6 = Current Value
-			 * 7 = needs restart
-			 *
-			 */
-			tempEntry = iterator.next();
-			tempSetting = tempEntry.getKey();
-			temp[0] = tempSetting.getName();
-			temp[1] = tempSetting.getTip();
-			temp[2] = false;
-			temp[3] = tempSetting.isUsingDefaultTrueFalse();
-			temp[4] = null;
-			if(!tempSetting.isUsingDefaultTrueFalse()){
-				temp[4] = tempSetting.getValues();
-			}
-			temp[5] = tempSetting.getOriginalValue();
-			temp[6] = tempEntry.getValue();
-			temp[7] = tempSetting.needsRestart();
-			
+			tempSetting = iterator.next().getKey();
 			if(!lists.contains(tempSetting.getParent())){
 				lists.add(tempSetting.getParent());
-				database.add(new Object[] {tempSetting.getParent().getName(), "", true});
+				database.add(new Object[] {true, null, tempSetting.getParent()});
 			}
-			
-			database.add(temp);
+
+			database.add(new Object[]{false, tempSetting, null});
+			//index of object
+			// 0 = isParent
+			// 1 = EnumSetting
+			// 2 = EnumSettingParent
 		}
 		
-		temp = null;
-		tempEntry = null;
 		tempSetting = null;
 		iterator = null;
 		flags = null;
@@ -110,57 +87,71 @@ public class SettingAdapter extends BaseAdapter {
 		}
 		
 		final Object[] data = database.get(arg0);
-		if((Boolean) data[2]){
+		if((Boolean) data[0]){
 			if(arg1 == null){
 				arg1 = Selectable;	
 			}
 			TextView settingName = ((TextView)arg1.findViewById(R.id.txtName));
-			settingName.setText((String)data[0]);
+			settingName.setText(((EnumSettingParents)data[2]).getName());
 			settingName.setTextSize(50);
 			settingName.setTypeface(Settings.getFont());
 			arg1.findViewById(R.id.txtDesc).setVisibility(View.GONE);
 			arg1.findViewById(R.id.spnValues).setVisibility(View.GONE);
-		}else if((Boolean)data[3]){
+		}else if(((EnumSettings)data[1]).isUsingDefaultTrueFalse()){
 			if(arg1 == null){
 				arg1 = TrueFalse;	
 			}
 			TextView settingName = ((TextView)arg1.findViewById(R.id.txtName));
-			settingName.setText((String)data[0]);
+			settingName.setText(((EnumSettings)data[1]).getName());
 			settingName.setTypeface(Settings.getFont());
 			TextView settingDesc = ((TextView)arg1.findViewById(R.id.txtDesc));
-			settingDesc.setText((String)data[1]);
+			settingDesc.setText(((EnumSettings)data[1]).getTip());
 			settingDesc.setTypeface(Settings.getFont());
 			
-			ToggleButton settingToggle = (ToggleButton)arg1.findViewById(R.id.spnValues);
+			ToggleButton settingToggle = (ToggleButton)arg1.findViewById(R.id.tglValues);
 			settingToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView,	boolean isChecked) {
 					
 					if(isChecked){
-						Settings.writeSetting(EnumSettings.valueOf((String)data[0]), 1);
+						Settings.writeSetting(((EnumSettings)data[1]), 1);
 					}else{
-						Settings.writeSetting(EnumSettings.valueOf((String)data[0]), 0);
+						Settings.writeSetting(((EnumSettings)data[1]), 0);
 					}
 					
 				}
 				
 			});
 			settingToggle.setTypeface(Settings.getFont());
-		}if((Boolean) data[3]){
+		}else{
 			if(arg1 == null){
 				arg1 = Selectable;
 			}
 			TextView settingName = ((TextView)arg1.findViewById(R.id.txtName));
-			settingName.setText((String)data[0]);
+			settingName.setText(((EnumSettings)data[1]).getName());
 			settingName.setTypeface(Settings.getFont());
 			TextView settingDesc = ((TextView)arg1.findViewById(R.id.txtDesc));
-			settingDesc.setText((String)data[1]);
+			settingDesc.setText(((EnumSettings)data[1]).getTip());
 			settingDesc.setTypeface(Settings.getFont());
 			
 			//TODO update Spinner
+			
 			Spinner settingSpinner = (Spinner)arg1.findViewById(R.id.spnValues);
-			ArrayAdapter settingValues = new ArrayAdapter(ctxt, android.R.layout.simple_spinner_item);
+			ArrayAdapter<String> settingValues = new ArrayAdapter<String>(ctxt, android.R.layout.simple_spinner_item, ((EnumSettings)data[1]).getValues());
+			
+			settingSpinner.setAdapter(settingValues);
+			settingSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					Settings.writeSetting(((EnumSettings)data[1]), position);
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {}
+			});
+			settingSpinner.setSelection(Settings.readSetting(((EnumSettings)data[1])));
 			
 		}
 		return arg1;
