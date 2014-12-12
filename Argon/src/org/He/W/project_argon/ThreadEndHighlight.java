@@ -10,10 +10,5 @@ public class ThreadEndHighlight extends Thread {
 	public void run(){
 		currentGame.highlightingTimeManager.reset();
 		currentGame.endHighlight();
-		try {
-			this.wait();
-		} catch (InterruptedException e) {
-			LogException.log(e);
-		}
 	}
 }

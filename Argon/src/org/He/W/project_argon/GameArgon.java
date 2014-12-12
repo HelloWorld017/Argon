@@ -3,7 +3,7 @@ package org.He.W.project_argon;
 import java.util.Random;
 
 public class GameArgon {
-	private TimeManager timeManager;
+	protected TimeManager timeManager;
 	protected TimeManager highlightingTimeManager;
 	private TimeThread timeThread;
 	private TimeThread highlightingTimeThread;
@@ -18,7 +18,7 @@ public class GameArgon {
 	protected EnumStatus gameStatus;
 	private Random r;
 	private EnumDirection nextEnumDirection;
-	private EnumDirection currentEnumDirection;
+	protected EnumDirection currentEnumDirection;
 	
 	public GameArgon(boolean hidden, boolean rotating, boolean origin){
 		gameStatus = EnumStatus.Prepared;
@@ -142,11 +142,16 @@ public class GameArgon {
 		isHighlighting = false;
 	}
 	
-	public void rotate(boolean isClockWise){
+	public void rotate(){
 		if(gameStatus != EnumStatus.Ingame){
 			throw new IllegalStateException();
 		}
-		currentRotation = EnumRotation.getRotation(currentRotation, isClockWise);
+		if(r.nextBoolean()){
+			currentRotation = EnumRotation.getRotation(currentRotation, true);
+		}else{
+			currentRotation = EnumRotation.getRotation(currentRotation, false);
+		}
+		
 	}
 	
 	public long calculateScore(){

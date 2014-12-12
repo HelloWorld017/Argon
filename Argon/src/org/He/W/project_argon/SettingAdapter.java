@@ -46,8 +46,10 @@ public class SettingAdapter extends BaseAdapter {
 				lists.add(tempSetting.getParent());
 				database.add(new Object[] {true, null, tempSetting.getParent()});
 			}
-
-			database.add(new Object[]{false, tempSetting, null});
+			if(tempSetting.isVisible()){
+				database.add(new Object[]{false, tempSetting, null});
+			}
+			
 			//index of object
 			// 0 = isParent
 			// 1 = EnumSetting

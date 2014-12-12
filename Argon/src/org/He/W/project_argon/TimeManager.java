@@ -20,6 +20,10 @@ public class TimeManager {
 		this.endWork = endWork;
 	}
 	
+	public synchronized void setReqTime(int reqTime){
+		requirementTime = reqTime;
+		calculateIsGameEnded();
+	}
 	public synchronized void reset(){
 		fixedCurrentTime = 0;
 		currentTime = 0;
