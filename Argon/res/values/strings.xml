@@ -3,8 +3,13 @@
 
     <string name="app_name">Argon</string>
     <string name="app_title_without_a">rgon</string>
+    <string name="developer">developed by Khinenw.</string>
+    <string name="developer_name">Khinenw</string>
+    <string name="epilepsy">Epilepsy Warning</string>
+    <string name="epilepsy_text">This game contains rapidly flashing lights which may not be suitable for photosensitive epilepsy.</string>
+    <string name="placeholder">If you are looking this text, please contact to developer.</string>
     <string name="setting_play_bgm">Play BGM</string>
     <string name="setting_play_bgm_tip">If you are in public places, please turn off the BGM!</string>
     <string name="title_activity_splash">SplashActivity</string>
-
+    
 </resources>

@@ -2,6 +2,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Black"
     tools:context="${relativePackage}.${activityClass}" >
+
+    <TextView
+        android:id="@+id/epilepsy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/epilepsy_desc"
+		android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/epilepsy"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/White" />
+
+    <TextView
+        android:id="@+id/epilepsy_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/epilepsy_text"
+        android:textColor="@color/White"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/developer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/developer_name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/Magenta"
+        android:textSize="40sp" />
 
 </RelativeLayout>
