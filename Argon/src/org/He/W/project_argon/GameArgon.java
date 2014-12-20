@@ -6,12 +6,13 @@ public class GameArgon {
 	protected TimeManager timeManager;
 	protected TimeManager highlightingTimeManager;
 	private TimeThread timeThread;
-	private TimeThread highlightingTimeThread;
+	protected TimeThread highlightingTimeThread;
 	private boolean isRotatingMode;
 	private boolean isHiddenMode;
 	protected boolean isHighlighting;
 	private boolean isOriginMultiplier;
 	private int currentCombo;
+	protected int needsCombo;
 	private long score;
 	private double multiplier;
 	private EnumRotation currentRotation;
@@ -28,6 +29,7 @@ public class GameArgon {
 		isRotatingMode = rotating;
 		isOriginMultiplier = origin;
 		currentCombo = 0;
+		needsCombo = 10;
 		score = 0;
 		multiplier = 1;
 		currentRotation = EnumRotation.rot0;
@@ -111,9 +113,8 @@ public class GameArgon {
 				timeManager.subtractTime(5);
 			}
 		}
-		if(currentCombo % 10 == 0){
+		if(currentCombo % needsCombo == 0){
 			isHighlighting = true;
-			
 			highlightingTimeThread.run();
 		}
 		getNext();

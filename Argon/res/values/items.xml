@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Items -->
+    <!-- name, desc, tip -->
+    <string-array name="hidden">
+       	<item>Hidden</item>
+    	<item>Play a hide-and-seek!</item>
+    	<item>Color of everything except HUD and next direction will be color of argon.</item>
+    </string-array>
+    
+    <string-array name="rotation">
+        <item>Rotation</item>
+        <item>Merry-go-around!</item>
+        <item>Buttons will rotate.</item>
+    </string-array>
+    
+    <string-array name="origin">
+        <item>Origin Multiplication</item>
+        <item>The quick origin jumps over the lazy penalties!</item>
+        <item>Penalties and points what you get by origin will be multiplied.</item>
+    </string-array>
+    
+    <!-- Modes -->
+    <string-array name="classic">
+        <item>Classic</item>
+        <item>Time limit 60, Accepts items, Highlight mode on 10combo, Origin lengthens your life.</item>
+    </string-array>
+    
+    <string-array name="pure">
+        <item>Pure</item>
+        <item>Time limit 60, no items, no highlight mode.</item>
+    </string-array>
+    
+    <string-array name="adventure">
+        <item>Unstable</item>
+        <item>Time limit 1, Accepts items, Highlight mode on 10combo and it increases, Every direction lengthen your life.</item>
+    </string-array>
+    
+</resources>

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <!-- Settings -->
+    <string name="setting_play_bgm">Play BGM</string>
+    <string name="setting_play_bgm_tip">If you are in public places, please turn off the BGM!</string>
+    
+    <!-- Values -->
     <string-array name="default_true_false">
-        <item >true</item>
-        <item >false</item>
+        <item>true</item>
+        <item>false</item>
     </string-array>
+    
 </resources>
