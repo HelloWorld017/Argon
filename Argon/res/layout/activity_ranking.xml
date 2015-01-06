@@ -2,72 +2,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
+    tools:context="${relativePackage}.${activityClass}">
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/btnPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:drawableStart="@drawable/direction"
-        android:drawableLeft="@drawable/direction" />
+        android:drawableLeft="@drawable/direction"
+        android:drawableStart="@drawable/direction"/>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnItems"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/button1"
-        android:layout_toLeftOf="@+id/button1"
-        android:text="Button" />
-
-    <CheckBox
-        android:id="@+id/chkHidden"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button2"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:text="CheckBox" />
-
-    <CheckBox
-        android:id="@+id/checkBox2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button2"
-        android:layout_toEndOf="@+id/checkBox1"
-        android:layout_toRightOf="@+id/checkBox1"
-        android:text="CheckBox" />
-
-    <CheckBox
-        android:id="@+id/checkBox3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button1"
-        android:layout_toRightOf="@+id/checkBox2"
-        android:layout_toEndOf="@+id/checkBox2"
-        android:text="CheckBox" />
+        android:layout_toLeftOf="@+id/btnPlay"
+        android:layout_toStartOf="@+id/btnPlay"
+        android:text="@string/items_string"/>
 
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/checkBox1"
-        android:layout_alignParentStart="true"
+        android:layout_above="@+id/btnPlay"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
-
-    </ListView>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"/>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnMainMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:text="Button" />
-
+        android:text="@string/mainmenu_string"/>
 </RelativeLayout>

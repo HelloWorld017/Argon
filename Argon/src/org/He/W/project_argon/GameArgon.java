@@ -5,23 +5,35 @@ import java.util.Random;
 public class GameArgon {
 	protected TimeManager timeManager;
 	protected TimeManager highlightingTimeManager;
-	private TimeThread timeThread;
+	protected TimeThread timeThread;
 	protected TimeThread highlightingTimeThread;
 	private boolean isRotatingMode;
 	private boolean isHiddenMode;
 	protected boolean isHighlighting;
 	private boolean isOriginMultiplier;
-	private int currentCombo;
+	protected int currentCombo;
 	protected int needsCombo;
 	private long score;
-	private double multiplier;
+	protected double multiplier;
 	private EnumRotation currentRotation;
 	protected EnumStatus gameStatus;
 	private Random r;
 	private EnumDirection nextEnumDirection;
 	protected EnumDirection currentEnumDirection;
 	
+	//last status to verify that user didn't used a cheat.
+	private long lastScore;
+	private boolean lastSelectedWasOrigin;
+	private boolean isLastHighlighted;
+	private int lastCombo;
+	private boolean isLastSelectionWasCorrect;
+	
 	public GameArgon(boolean hidden, boolean rotating, boolean origin){
+		lastScore = 0;
+		lastSelectedWasOrigin = false;
+		isLastHighlighted = false;
+		lastCombo = 0;
+		isLastSelectionWasCorrect = false;
 		gameStatus = EnumStatus.Prepared;
 		timeManager = new TimeManager(this);
 		timeThread = new TimeThread(timeManager);
@@ -129,6 +141,10 @@ public class GameArgon {
 		}
 	}
 	
+	public void verifyScore(){
+		
+	}
+	
 	public void startHighlight(){
 		if(gameStatus != EnumStatus.Ingame){
 			throw new IllegalStateException();
@@ -161,6 +177,9 @@ public class GameArgon {
 		else{return Math.round((2 * currentCombo + 50) / 12.5 * multiplier);}
 		
 	}
+
+		
+
 	
 	public boolean isHidden(){
 		return isHiddenMode;

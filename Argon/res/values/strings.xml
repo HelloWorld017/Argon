@@ -7,6 +7,8 @@
     <string name="developer_name">Khinenw</string>
     <string name="epilepsy">Epilepsy Warning</string>
     <string name="epilepsy_text">This game contains rapidly flashing lights which may not be suitable for photosensitive epilepsy.</string>
+    <string name="items_string">Game Prefs</string>
+    <string name="mainmenu_string">Main Menu</string>
     <string name="placeholder">If you are looking this text, please contact to developer.</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_ranking">RankingActivity</string>
