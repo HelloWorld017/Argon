@@ -137,8 +137,6 @@ public class SettingAdapter extends BaseAdapter {
 			settingDesc.setText(((EnumSettings)data[1]).getTip());
 			settingDesc.setTypeface(Settings.getFont());
 			
-			//TODO update Spinner
-			
 			Spinner settingSpinner = (Spinner)arg1.findViewById(R.id.spnValues);
 			ArrayAdapter<String> settingValues = new ArrayAdapter<String>(ctxt, android.R.layout.simple_spinner_item, ((EnumSettings)data[1]).getValues());
 			
